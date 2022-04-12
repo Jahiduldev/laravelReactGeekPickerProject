@@ -125,9 +125,22 @@ const SendMoney = () => {
         )
     }
 
-    // const goBack = () => (<div className="mt-5">
-    //     <Link to="/dashboard" className="text-warning">Go to Dashboard</Link>
-    // </div>)
+    
+    const UserLinks = () => {
+        return (
+            <div className="card">
+                <h4 className="card-header">User Links</h4>
+                <ul className="list-group">
+                    <li className="list-group-item">
+                        <Link className="nav-link" to="/sendMoney">Send Money</Link>
+                    </li>
+                    <li className="list-group-item">
+                        <Link className="nav-link" to="/transactionReport">Transaction Report</Link>
+                    </li>
+                </ul>
+            </div>
+        )
+    };
 
     const redirectUser = () => {
         if (redirect) return <Redirect to="/dashboard" />
@@ -137,7 +150,10 @@ const SendMoney = () => {
     return (
         <Layout title="Add a new category">
             <div className="row">
-                <div className="col-md-8 offset-md-2">
+                <div className="col-sm-3">
+                    <UserLinks />
+                </div>
+                <div className="col-md-7">
                     {redirectUser()}
                     {showLoading(loading)}
                     {showError(error, error)}
@@ -146,6 +162,7 @@ const SendMoney = () => {
                 </div>
             </div>
         </Layout>
+
     );
 }
 export default SendMoney;

@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ReportingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,8 +30,15 @@ Route::group([
     Route::post('resetPassword', 'ChangePasswordController@process');
     Route::post('sendToCustomer', 'TransactionController@sendToCustomer');
 
-
-
 });
+
+Route::group([
+    'middleware' => 'api',
+    'namespace' => 'App\Http\Controllers',
+], function ($router) {
+    Route::get('transactionReport', [\App\Http\Controllers\ReportingController::class,'transactionReport']);
+});
+
+
 
 

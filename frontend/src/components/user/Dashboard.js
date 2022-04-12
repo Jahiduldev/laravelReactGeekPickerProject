@@ -19,17 +19,21 @@ const Dashboard = (props) => {
                         <Link className="nav-link" to="/sendMoney">Send Money</Link>
                     </li>
                     <li className="list-group-item">
-                        <Link className="nav-link" to="#">Update Profile</Link>
+                        <Link className="nav-link" to="/transactionReport">Transaction Report</Link>
                     </li>
                 </ul>
             </div>
         )
     };
+    
 
     const PurchaseHistory = () => (
         <div className="card mb-5">
             <h3 className="card-header">Transaction History</h3>
             <ul className="list-group">
+                <li className="list-group-item">
+                        <Link className="nav-link" to="/sendMoney">Send Money</Link>
+                </li>
                 <li className="list-group-item">History</li>
             </ul>
         </div>
