@@ -1,24 +1,22 @@
 import Layout from '../Layout';
 import { Link } from 'react-router-dom';
 import { useState , useEffect } from 'react';
-import { userInfo } from '../../utils/auth';
 import { transactionReport } from '../../api/apiReport';
 
 
-const TransactionReport = (props) => {
-    const { user } = userInfo();
-    const [getData,setData] = useState('');
-    // const { transactionReport } = transactionReport();
+const TransactionReport = () => {
 
+    const [getData,setData] = useState('');
+ 
     useEffect(()=>{
 
         transactionReport()
         .then(res=>{
             setData(res.data);
-            console.log(res.data);
+            //console.log(res.data);
         })
         .catch(err=>{
-            console.log(err);
+            //console.log(err);
         })
         
     },[])
@@ -58,9 +56,6 @@ const TransactionReport = (props) => {
         </div>
     );
 
-    
-
-    
     const UserLinks = () => {
         return (
             <div className="card">
@@ -80,20 +75,17 @@ const TransactionReport = (props) => {
     return (
     
         <Layout title="Dashboard" className="container-fluid">
-        <div className="row">
-            <div className="col-sm-3">
-               <UserLinks />
+            <div className="row">
+                <div className="col-sm-3">
+                <UserLinks/>
+                </div>
+                <div className="col-sm-9">
+                    <UserInfo/>
+                </div>
             </div>
-            <div className="col-sm-9">
-                <UserInfo />
-              
-            </div>
-        </div>
         </Layout>
-)
+    )
 
-        
-    
 }
 
 export default TransactionReport;

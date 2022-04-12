@@ -31,10 +31,8 @@ const Dashboard = (props) => {
         <div className="card mb-5">
             <h3 className="card-header">Transaction History</h3>
             <ul className="list-group">
-                <li className="list-group-item">
-                        <Link className="nav-link" to="/sendMoney">Send Money</Link>
-                </li>
-                <li className="list-group-item">History</li>
+                <li className="list-group-item">Total Conversion Amount:</li>
+                <li className="list-group-item">Third highest Amount of Transaction:</li>
             </ul>
         </div>
     );

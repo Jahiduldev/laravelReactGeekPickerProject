@@ -148,7 +148,7 @@ const SendMoney = () => {
 
 
     return (
-        <Layout title="Add a new category">
+        <Layout title="Send Money">
             <div className="row">
                 <div className="col-sm-3">
                     <UserLinks />

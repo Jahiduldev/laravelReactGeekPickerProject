@@ -13,4 +13,25 @@ class ReportingController extends Controller
         $posts = DB::table('transaction_informations')->get();
         return $posts;
     }
+
+
+    public function userWhoUsedMostConversion()
+    {
+        $posts = DB::table('transaction_informations')->get();
+        return $posts;
+    }
+
+
+    public function totalAmountOFConversionForParticularUser()
+    {
+        $posts = DB::table('transaction_informations')->get();
+        return $posts;
+    }
+
+
+    public function thridHishestTransactionForParticularUser()
+    {
+        $posts = DB::table('transaction_informations')->get();
+        return $posts;
+    }
 }
