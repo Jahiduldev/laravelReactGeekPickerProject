@@ -16,14 +16,13 @@ const SendMoney = () => {
         customerSenderAccNo: user.accountsNumber,
         customerReceiverAccNo: '',
         amount: '',
-        currencyType: user.CurrencyType,
+        CurrencyCode: user.CurrencyCode,
         error: false,
         success: false,
         loading: false
     });
 
-   
-    const {name, customerSenderId, customerSenderAccNo, customerReceiverAccNo, amount, currencyType, redirect, error, success, loading } = values;
+    const {name, customerSenderId, customerSenderAccNo, customerReceiverAccNo, amount, CurrencyCode, redirect, error, success, loading } = values;
 
     const handleChange = (e) => {
         setValues({
@@ -33,10 +32,7 @@ const SendMoney = () => {
             error: false,
             redirect: false
         })
-      
-
     }
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -46,14 +42,14 @@ const SendMoney = () => {
 
         const { token } = userInfo();
       
-        createSendMoney(token, {customerSenderId, name, customerSenderAccNo, customerReceiverAccNo ,amount ,currencyType })
+        createSendMoney(token, {customerSenderId, name, customerSenderAccNo, customerReceiverAccNo ,amount ,CurrencyCode })
             .then(response => {
                 
                 setValues({
                     name: '',
-                    accountsNumber: '',
+                    customerSenderAccNo: user.accountsNumber,
                     amount: '',
-                    currencyType: user.CurrencyType,
+                    CurrencyCode: user.CurrencyCode,
                     error: false,
                     success: true,
                     loading: false,

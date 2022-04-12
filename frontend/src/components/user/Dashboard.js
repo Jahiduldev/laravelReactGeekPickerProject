@@ -6,9 +6,9 @@ import { SendMoney } from '../admin/SendMoney';
 const Dashboard = (props) => {
     const { user } = userInfo();
 
-    console.log(user.CurrentBalance);
+   // console.log(user.CurrentBalance);
 
-    const CurrencyType = user.CurrencyType == 0 ? "$" : "€";
+    const CurrencyCode = user.CurrencyCode == 0 ? "$" : "€";
 
     const UserLinks = () => {
         return (
@@ -43,7 +43,7 @@ const Dashboard = (props) => {
             <ul className="list-group">
                 <li className="list-group-item">Name: {user.name}</li>
                 <li className="list-group-item">Email: {user.email}</li>
-                <li className="list-group-item">Balance: {CurrencyType} {user.CurrentBalance}
+                <li className="list-group-item">Balance: {CurrencyCode} {user.CurrentBalance}
                 
                 </li>
             </ul>

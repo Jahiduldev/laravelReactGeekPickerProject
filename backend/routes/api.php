@@ -37,6 +37,7 @@ Route::group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     Route::get('transactionReport', [\App\Http\Controllers\ReportingController::class,'transactionReport']);
+    Route::get('totalAmountOFConversion', [\App\Http\Controllers\ReportingController::class,'totalAmountOFConversionForParticularUser']);
 });
 
 

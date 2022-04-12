@@ -40,6 +40,7 @@ export const userInfo = () => {
 export const singout = cb => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt');
+        localStorage.removeItem('user');
         cb();
     }
 }

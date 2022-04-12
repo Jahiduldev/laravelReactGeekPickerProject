@@ -15,32 +15,20 @@ class CreateTransactionInformationTable extends Migration
     {
         Schema::create('transaction_informations', function (Blueprint $table) {
             $table->id();
-            $table->string('CustomerId');
+            $table->unsignedBigInteger('CustomerId');
             $table->string('TransactionNo');
-            $table->string('TransactionTypeId');
+            $table->tinyInteger('TransactionTypeId')->comment('1=dabit, 0 = credit');
             $table->string('TransactionTypeName');
-            //$table->string('TransactionStatusId');
-            //$table->string('TransactionStatus');
-            $table->bigInteger('Amount');
-            $table->string('UserName');
+            $table->decimal('Amount', 20, 5);
             $table->string('FromAccount');
-            //$table->integer('FromAccountType');
             $table->string('ToAccount');
-            //$table->string('ToAccountType');
-            $table->string('CurrencyCode');
-            $table->integer('ReceivedAmount');
+            $table->tinyInteger('CurrencyCode');
             $table->date('ReceivedDate');
             $table->text('Remarks');
-            $table->string('ReceiverCustomerId');
-            //$table->string('TransactionSuccessfulDate');
-            //$table->string('ReversalTransactionId');
-            //$table->string('TransactionError');
-            $table->date('CreatedDate');
-            $table->string('CreatedBy')->default(null);
             $table->date('ModifiedDate');
-            $table->string('ModifiedBy')->default(null);
             $table->string('IsActive')->default(null);
             $table->string('IsDeleted')->default(0);
+            $table->foreign('CustomerId')->references('id')->on('users');
             $table->timestamps();
         });
     }

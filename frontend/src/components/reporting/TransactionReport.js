@@ -28,13 +28,13 @@ const TransactionReport = () => {
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                    <th scope="col">sl</th>
-                    <th scope="col">TransactionNo</th>
-                    <th scope="col">FromAccount</th>
-                    <th scope="col">ToAccount</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Account Type</th>
-                    <th scope="col">Date</th>
+                        <th scope="col">sl</th>
+                        <th scope="col">TransactionNo</th>
+                        <th scope="col">FromAccount</th>
+                        <th scope="col">ToAccount</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Account Type</th>
+                        <th scope="col">Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,7 +73,7 @@ const TransactionReport = () => {
     };
 
     return (
-    
+
         <Layout title="Dashboard" className="container-fluid">
             <div className="row">
                 <div className="col-sm-3">
