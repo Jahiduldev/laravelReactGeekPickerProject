@@ -23,20 +23,12 @@ class TransactionRequest extends FormRequest
      */
     public function rules()
     {
-    
          return [
-            //
-            'Narration'  => 'required',
-            'Coaid' =>  'required',
-            'AccountType' => 'required|confirmed'
-            'ChartOfAccountNo'  => 'required',
-            'Amount' =>  'required',
-            'DrOrCr' => 'required|confirmed'
-            'FiscalYear'  => 'required',
-            'CurrecnyId' =>  'required',
-            'Remarks' => 'required|confirmed'
-            'TransactionInformationId'  => 'required'
-            
+            'CustomerId'    => 'required',
+            'Amount'        => 'required',
+            'FromAccount'   => 'required',
+            'ToAccount'     =>  'required',
+            'CurrencyCode'  => 'required'
         ];
     }
 }
