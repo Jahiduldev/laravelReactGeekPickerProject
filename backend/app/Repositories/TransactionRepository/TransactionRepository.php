@@ -20,7 +20,7 @@ class TransactionRepository implements ITransactionRepository
 
     public static function currencyEcchange($currencyAmount, $CurrencyCode, $receiverCurrencyType)
     {
-
+        //get exchange data from fixer api
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', 'http://data.fixer.io/api/latest?access_key=5a8e988f7f0da4bbb20d98c0810e5f79')->getBody();
 

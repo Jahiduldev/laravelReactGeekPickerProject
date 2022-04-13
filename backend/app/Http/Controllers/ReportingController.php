@@ -23,29 +23,28 @@ class ReportingController extends Controller
         return $posts;
     }
 
-
     public function totalAmountOFConversionForParticularUser()
     {
 
-        $A = [];
+        $getAccountNumberAndTransAmount = [];
         $B = [];
 
         $posts = DB::table('transaction_informations')->where('TransactionTypeId', '=', 1)->get();
         foreach ($posts as $data) {
 
             //$CustomerId = $data->CustomerId;
-            $CustomerId = $data->FromAccount;
+            $AccountNumber = $data->FromAccount;
             $Amount = $data->Amount;
 
-            if (isset($A[$CustomerId])) {
-                $A[$CustomerId] = $A[$CustomerId] + $Amount;
+            if (isset($A[$AccountNumber])) {
+                $getAccountNumberAndTransAmount[$AccountNumber] = $getAccountNumberAndTransAmount[$AccountNumber] + $Amount;
             } else {
-                $A[$CustomerId] = $Amount;
-                array_push($B, $CustomerId);
+                $getAccountNumberAndTransAmount[$AccountNumber] = $Amount;
+                array_push($B, $AccountNumber);
             }
         }
 
-        return empty($A) ? [] : $A;
+        return empty($getAccountNumberAndTransAmount) ? [] : $getAccountNumberAndTransAmount;
 
     }
 
