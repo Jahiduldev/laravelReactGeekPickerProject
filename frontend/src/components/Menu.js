@@ -11,7 +11,7 @@ const isActive = (history, path) => {
 }
 
 const Menu = ({ history }) => {
-   // const role = userInfo().user.roleID==1 ? 'admin' : 'user'; 
+  
     return (
         <nav className='navbar navbar-dark bg-dark'>
             <ul className="nav nav-tabs" >

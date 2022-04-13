@@ -8,3 +8,14 @@ export const transactionReport = () => {
         }
     })
 };
+
+
+export const totalAmountOFConversionForParticularUser = () => {
+    return axios.get(`http://localhost:8000/api/totalAmountOFConversion`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+};
+
+

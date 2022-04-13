@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use  App\Models\Transaction_information;
 use  Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ReportingController extends Controller
 {
     //
     public function transactionReport()
     {
-        $posts = DB::table('transaction_informations')->get();
+        $posts = DB::table('transaction_informations')->where('CustomerId','=',1)->get();
         return $posts;
     }
 
@@ -29,11 +30,11 @@ class ReportingController extends Controller
         $A = [];
         $B = [];
 
-        $posts = DB::table('transaction_informations')->get();
+        $posts = DB::table('transaction_informations')->where('TransactionTypeId', '=', 1)->get();
         foreach ($posts as $data) {
 
-            $CustomerId = $data->CustomerId;
-           // $CustomerId = $data->UserName;
+            //$CustomerId = $data->CustomerId;
+            $CustomerId = $data->FromAccount;
             $Amount = $data->Amount;
 
             if (isset($A[$CustomerId])) {
@@ -43,15 +44,11 @@ class ReportingController extends Controller
                 array_push($B, $CustomerId);
             }
         }
-        $output = [];
 
-        echo '<pre>';
-        print_r($A);
-        echo '<hr>';
-        print_r($B);
-
+        return empty($A) ? [] : $A;
 
     }
+
 
 
     public function thridHishestTransactionForParticularUser()

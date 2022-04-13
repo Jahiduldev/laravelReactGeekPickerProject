@@ -8,6 +8,8 @@ import AdminDashBoard from '../components/admin/AdminDashBoard';
 import SendMoney from './admin/SendMoney';
 
 import TransactionReport from './reporting/TransactionReport';
+import TotalConversionForParticularuser from './reporting/TotalConversionForParticularuser';
+
 import AdminRoute from './protecteRoutes/AdminRoute';
 
 const Main = () => {
@@ -18,6 +20,7 @@ const Main = () => {
                 <Route path="/login" exact component={Login} />
                 <Route path="/register" exact component={Register} />
                 <Route path="/transactionReport" exact component={TransactionReport} />
+                <Route path="/totalConversionForParticularUser" exact component={TotalConversionForParticularuser} />
                 <PrivateRoute path="/user/dashboard">
                     <Dashboard />
                 </PrivateRoute>

@@ -136,7 +136,7 @@ const SendMoney = () => {
     };
 
     const redirectUser = () => {
-        if (redirect) return <Redirect to="/dashboard" />
+        if (redirect) return <Redirect to="/user/dashboard" />
     }
 
 

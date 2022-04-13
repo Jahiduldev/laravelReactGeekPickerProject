@@ -15,10 +15,10 @@ const AdminDashBoard = (props) => {
                 <h4 className="card-header">Admin Dashboard</h4>
                 <ul className="list-group">
                     <li className="list-group-item">
-                        <Link className="nav-link" to="/sendMoney">Send Money</Link>
+                        <Link className="nav-link" to="/totalConversionForParticularUser">Total amount of conversion for particular user</Link>
                     </li>
                     <li className="list-group-item">
-                        <Link className="nav-link" to="/transactionReport">Transaction Report</Link>
+                        <Link className="nav-link" to="/transactionReport">Most used conversion user</Link>
                     </li>
                 </ul>
             </div>
