@@ -19,13 +19,16 @@ class TransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
     private $service;
+
     public function __construct(ITransactionRepository $service)
     {
         $this->service = $service;
     }
+
     public function index()
     {
     }
+
     /*
      * Jahidul isalm
      *
@@ -33,10 +36,6 @@ class TransactionController extends Controller
      * */
     public function sendToCustomer(EmoneySendRequest $request)
     {
-
-       // echo $request;
-        //if this validation pass then it will go for next request
-        //Note: we can use the above validation or rules ( time short)
         $this->service->emoneyTransferTOCustomer($request);
     }
 

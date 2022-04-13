@@ -23,6 +23,7 @@ class EmoneySendRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'customerSenderId' => 'required',
             'amount' => 'required|min:1|max:10',

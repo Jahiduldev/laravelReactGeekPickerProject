@@ -17,3 +17,16 @@ export const login = (user) => {
         }
     })
 };
+
+
+
+
+export const getUserDataById = (token) => {
+
+    return axios.get(`http://localhost:8000/api/userDataById`,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}

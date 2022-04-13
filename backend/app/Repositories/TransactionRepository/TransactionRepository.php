@@ -43,6 +43,7 @@ class TransactionRepository implements ITransactionRepository
         }
 
     }
+
     //get currentcy type of receiver account by account number
     public static function checkAccoutForCurrency($customerReceiverAccNo)
     {
@@ -70,23 +71,27 @@ class TransactionRepository implements ITransactionRepository
     public function emoneyTransferTOCustomer($request)
     {
 
-       // return response()->json(['message' => 'Transaction Successfully done']);
+        // return response()->json(['message' => 'Transaction Successfully done']);
         $checkReceiveableCustomerHaveUsdOrEuroBalance = self::checkAccoutForCurrency($request->customerReceiverAccNo);
 
         //get Usd or Euro from api conversion as per customer currency type . if customer have euro , then receive euro and
         // if customer have usd then receive usd
         $totalDollarOrEuro = self::currencyEcchange((int)$request->amount, $request->CurrencyCode, $checkReceiveableCustomerHaveUsdOrEuroBalance);
 
-         //receiver account number
+        //receiver account number
         $receiverId = self::getReceiverIdByAccoutsNo($request->customerReceiverAccNo);
 
         //Uniquer transacion number for transaction
         $TransactionNosubstr = uniqid();;
 
         //if below value if empty , no tranasction will be made
-        if (empty($request->customerSenderId)  || empty($request->amount) || empty($request->customerSenderAccNo) || empty($request->customerReceiverAccNo) || is_null($request->CurrencyCode)) {
+        if (empty($request->customerSenderId) || empty($request->amount) || empty($request->customerSenderAccNo) || empty($request->customerReceiverAccNo) || is_null($request->CurrencyCode)) {
 
             return response()->json(['message' => 'emoney validation failed  failed']);
+        }
+        //if customer want to send balance to his own account , then will be blcoked
+        if ($request->customerSenderId == $request->customerReceiverAccNo) {
+            return response()->json(['message' => 'Please, This is your own account number']);
         }
 
         DB::beginTransaction();

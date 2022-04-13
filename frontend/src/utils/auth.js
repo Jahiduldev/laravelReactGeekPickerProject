@@ -35,6 +35,12 @@ export const userInfo = () => {
 }
 
 
+export const token = () => {
+
+  const token = localStorage.getItem('jwt');
+  return { token: token }
+   
+}
 
 
 export const singout = cb => {
@@ -44,6 +50,11 @@ export const singout = cb => {
         cb();
     }
 }
+
+
+
+
+
 
 
 
