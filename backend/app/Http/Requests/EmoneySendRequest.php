@@ -25,7 +25,7 @@ class EmoneySendRequest extends FormRequest
     {
         return [
             'customerSenderId' => 'required',
-            'amount' => 'required',
+            'amount' => 'required|min:1|max:10',
             'customerSenderAccNo' => 'required',
             'customerReceiverAccNo' => 'required',
             'CurrencyCode' => 'required'
