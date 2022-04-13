@@ -18,6 +18,7 @@ class TransactionRepository implements ITransactionRepository
 
     }
 
+    //get currentcy rate user fixer api if limim 100 cross it will  show error in trail version
     public static function currencyEcchange($currencyAmount, $CurrencyCode, $receiverCurrencyType)
     {
         if (empty($currencyAmount) || empty($CurrencyCode) || empty($receiverCurrencyType)) {
@@ -38,7 +39,7 @@ class TransactionRepository implements ITransactionRepository
             return $TotalEuroAmount = $oneUSD * $currencyAmount;
         }
     }
-
+    //get currentcy type of receiver account by account number
     public static function checkAccoutForCurrency($customerReceiverAccNo)
     {
         if (empty($customerReceiverAccNo)) {
@@ -49,7 +50,7 @@ class TransactionRepository implements ITransactionRepository
         return $getSenderUserCurrencyType;
     }
 
-
+    //get receiver user id by accounts number
     public static function getReceiverIdByAccoutsNo($customerReceiverAccNo)
     {
         if (empty($customerReceiverAccNo)) {
@@ -59,6 +60,7 @@ class TransactionRepository implements ITransactionRepository
         return $getSenderUserCurrencyType;
     }
 
+
     public function emoneyTransferTOCustomer($request)
     {
         $checkReceiveableCustomerHaveUsdOrEuroBalance = self::checkAccoutForCurrency($request->customerReceiverAccNo);
@@ -67,10 +69,14 @@ class TransactionRepository implements ITransactionRepository
         // if customer have usd then receive usd
         $totalDollarOrEuro = self::currencyEcchange($request->amount, $request->CurrencyCode, $checkReceiveableCustomerHaveUsdOrEuroBalance);
 
+         //receiver account number
         $receiverId = self::getReceiverIdByAccoutsNo($request->customerReceiverAccNo);
+
+        //Uniquer transacion number for transaction
         $TransactionNosubstr = uniqid();;
 
 
+        //if below value if empty , no tranasction will be made
         if (empty($request->customerSenderId) || empty($TransactionNosubstr) || empty($request->amount) || empty($request->customerSenderAccNo) || empty($request->customerReceiverAccNo) || empty($request->CurrencyCode)) {
             return false;
         }
