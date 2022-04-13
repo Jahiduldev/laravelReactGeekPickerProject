@@ -20,6 +20,9 @@ class TransactionRepository implements ITransactionRepository
 
     public static function currencyEcchange($currencyAmount, $CurrencyCode, $receiverCurrencyType)
     {
+        if (empty($currencyAmount) || empty($CurrencyCode) || empty($receiverCurrencyType)) {
+            return false;
+        }
         //get exchange data from fixer api
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', 'http://data.fixer.io/api/latest?access_key=5a8e988f7f0da4bbb20d98c0810e5f79')->getBody();
@@ -38,6 +41,10 @@ class TransactionRepository implements ITransactionRepository
 
     public static function checkAccoutForCurrency($customerReceiverAccNo)
     {
+        if (empty($customerReceiverAccNo)) {
+            return false;
+        }
+
         $getSenderUserCurrencyType = User::where('accountsNumber', '=', $customerReceiverAccNo)->first()->CurrencyCode;
         return $getSenderUserCurrencyType;
     }
@@ -45,6 +52,9 @@ class TransactionRepository implements ITransactionRepository
 
     public static function getReceiverIdByAccoutsNo($customerReceiverAccNo)
     {
+        if (empty($customerReceiverAccNo)) {
+            return false;
+        }
         $getSenderUserCurrencyType = User::where('accountsNumber', '=', $customerReceiverAccNo)->first()->id;
         return $getSenderUserCurrencyType;
     }
@@ -59,6 +69,11 @@ class TransactionRepository implements ITransactionRepository
 
         $receiverId = self::getReceiverIdByAccoutsNo($request->customerReceiverAccNo);
         $TransactionNosubstr = uniqid();;
+
+
+        if (empty($request->customerSenderId) || empty($TransactionNosubstr) || empty($request->amount) || empty($request->customerSenderAccNo) || empty($request->customerReceiverAccNo) || empty($request->CurrencyCode)) {
+            return false;
+        }
 
         DB::beginTransaction();
         try {
