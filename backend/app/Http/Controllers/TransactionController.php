@@ -33,14 +33,17 @@ class TransactionController extends Controller
     public function sendToCustomer(Request $request)
     {
         //if this validation pass then it will go for next request
-        $validated = $request->validate([
-            'CustomerId' => 'required',
-            'TransactionNo' => 'required',
-            'Amount' => 'required',
-            'FromAccount' => 'required',
-            'ToAccount' => 'required',
-            'CurrencyCode' => 'required',
-        ]);
+
+//        $validated = $request->validate([
+//            'CustomerId' => 'required',
+//            'TransactionNo' => 'required',
+//            'Amount' => 'required',
+//            'FromAccount' => 'required',
+//            'ToAccount' => 'required',
+//            'CurrencyCode' => 'required',
+//        ]);
+
+        //Note: we can use the above validation or rules ( time short)
 
         $this->service->emoneyTransferTOCustomer($request);
     }
