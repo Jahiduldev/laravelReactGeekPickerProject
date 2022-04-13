@@ -25,8 +25,23 @@ class TransactionController extends Controller
     public function index()
     {
     }
+    /*
+     * Jahidul isalm
+     *
+     * customer send money from one account to another
+     * */
     public function sendToCustomer(Request $request)
     {
+        //if this validation pass then it will go for next request
+        $validated = $request->validate([
+            'CustomerId' => 'required',
+            'TransactionNo' => 'required',
+            'Amount' => 'required',
+            'FromAccount' => 'required',
+            'ToAccount' => 'required',
+            'CurrencyCode' => 'required',
+        ]);
+
         $this->service->emoneyTransferTOCustomer($request);
     }
 

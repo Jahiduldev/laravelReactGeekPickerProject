@@ -23,9 +23,9 @@ class ReportingController extends Controller
         return $posts;
     }
 
+    ///Userbased total transaction amount
     public function totalAmountOFConversionForParticularUser()
     {
-
         $getAccountNumberAndTransAmount = [];
         $B = [];
 
