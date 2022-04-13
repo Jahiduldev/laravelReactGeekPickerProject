@@ -15,6 +15,7 @@ class TransactionRepository implements ITransactionRepository
 
     public function __construct()
     {
+
     }
 
     public static function currencyEcchange($currencyAmount, $CurrencyCode, $receiverCurrencyType)
@@ -57,11 +58,13 @@ class TransactionRepository implements ITransactionRepository
         $totalDollarOrEuro = self::currencyEcchange($request->amount, $request->CurrencyCode, $checkReceiveableCustomerHaveUsdOrEuroBalance);
 
         $receiverId = self::getReceiverIdByAccoutsNo($request->customerReceiverAccNo);
+        $TransactionNosubstr = uniqid();;
+
         DB::beginTransaction();
         try {
             Transaction_information::create([
                 'CustomerId' => $request->customerSenderId,
-                'TransactionNo' => '532123fdafad',
+                'TransactionNo' => $TransactionNosubstr,
                 'TransactionTypeId' => 1,
                 'TransactionTypeName' => 'debit',
                 'Amount' => $request->amount,
@@ -76,7 +79,7 @@ class TransactionRepository implements ITransactionRepository
 
             Transaction_information::create([
                 'CustomerId' => $receiverId,
-                'TransactionNo' => '532123fdafad',
+                'TransactionNo' => $TransactionNosubstr,
                 'TransactionTypeId' => 0,
                 'TransactionTypeName' => 'credit',
                 'Amount' => $totalDollarOrEuro,
@@ -96,13 +99,11 @@ class TransactionRepository implements ITransactionRepository
             // something went wrong
             echo $e;
         }
-       // $id = 2;
+        // $id = 2;
 
         //DB::statement('call UpdatePersonProfileTable(?, ?)', [$id, $request->amount]);
         return response()->json(['message' => 'Transaction Successfully done']);
     }
-
-
 
 
 }

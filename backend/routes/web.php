@@ -20,7 +20,3 @@ Route::get('/', function () {
 
 
 
-
-
- Route::get('/user', [TransactionController::class,'index']);
-

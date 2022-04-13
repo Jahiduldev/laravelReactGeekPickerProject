@@ -1,5 +1,6 @@
 import { Link, withRouter } from 'react-router-dom';
 import { singout, isAuthenticated } from '../utils/auth';
+import { userInfo } from '../utils/auth';
 
 const isActive = (history, path) => {
     if (history.location.pathname === path) {
@@ -10,6 +11,7 @@ const isActive = (history, path) => {
 }
 
 const Menu = ({ history }) => {
+   // const role = userInfo().user.roleID==1 ? 'admin' : 'user'; 
     return (
         <nav className='navbar navbar-dark bg-dark'>
             <ul className="nav nav-tabs" >
@@ -27,7 +29,10 @@ const Menu = ({ history }) => {
 
                 {isAuthenticated() && (<>
                     <li className="nav-item">
-                        <Link className="nav-link" style={isActive(history, '/dashboard')} to="/dashboard">Dashboard</Link>
+                        <Link className="nav-link" style={isActive(history, `${userInfo().user.role}/dashboard`)}
+                         to={`${userInfo().user.role}/dashboard`}>
+                             Dashboard
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <span className="nav-link" style={{ cursor: 'pointer', color: 'grey' }} onClick={() => {

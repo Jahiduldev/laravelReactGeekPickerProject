@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useState , useEffect } from 'react';
 import { transactionReport } from '../../api/apiReport';
 
-
 const TransactionReport = () => {
 
     const [getData,setData] = useState('');
@@ -25,7 +24,7 @@ const TransactionReport = () => {
     const UserInfo = () => (
         <div className="card mb-5">
             <h3 className="card-header">Transaction Report</h3>
-            <table class="table table-bordered">
+            <table className="table table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">sl</th>
@@ -38,14 +37,14 @@ const TransactionReport = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {getData && getData.map(row => {
+                {getData&&getData.map(row=>{
                     return(
-                        <tr>
-                            <th key={row.id}>{row.id}</th>
+                        <tr> 
+                            <td key={row.id}>{row.id}</td>
                             <td>{row.TransactionNo}</td>
-                            <td>{row.TransactionNo}</td>
-                            <td>{row.TransactionNo}</td>
-                            <td>{row.CurrencyCode == 0 ? "$" : "€"} {row.Amount}</td>
+                            <td>{row.FromAccount}</td>
+                            <td>{row.ToAccount}</td>
+                            <td>{row.CurrencyCode==0?"$":"€"}{row.Amount}</td>
                             <td>{row.TransactionTypeName}</td>
                             <td>{row.created_at}</td>
                         </tr>
@@ -54,7 +53,7 @@ const TransactionReport = () => {
                 </tbody>
             </table>
         </div>
-    );
+        );
 
     const UserLinks = () => {
         return (
@@ -73,19 +72,17 @@ const TransactionReport = () => {
     };
 
     return (
-
         <Layout title="Dashboard" className="container-fluid">
             <div className="row">
                 <div className="col-sm-3">
                 <UserLinks/>
                 </div>
                 <div className="col-sm-9">
-                    <UserInfo/>
+                <UserInfo/>
                 </div>
             </div>
         </Layout>
-    )
-
+    );
 }
 
 export default TransactionReport;

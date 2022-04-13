@@ -46,10 +46,7 @@ const SendMoney = () => {
             .then(response => {
                 
                 setValues({
-                    name: '',
-                    customerSenderAccNo: user.accountsNumber,
-                    amount: '',
-                    CurrencyCode: user.CurrencyCode,
+                    ...values,
                     error: false,
                     success: true,
                     loading: false,
@@ -158,7 +155,6 @@ const SendMoney = () => {
                 </div>
             </div>
         </Layout>
-
     );
 }
 export default SendMoney;

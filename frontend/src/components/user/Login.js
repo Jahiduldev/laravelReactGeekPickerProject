@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Layout from '../Layout';
 import { showError, showLoading } from '../../utils/messages';
 import { login } from '../../api/apiAuth';
-import { authenticate } from '../../utils/auth';
+import { authenticate, isAuthenticated, userInfo } from '../../utils/auth';
 
 const Login = () => {
     
@@ -17,7 +17,8 @@ const Login = () => {
     });
 
     const { email, password, loading, error, redirect, disabled } = values;
-
+   
+ 
 
     const handleChange = e => {
         setValues({
@@ -73,9 +74,11 @@ const Login = () => {
         </form>
     );
 
-    const redirectUser = () => {
-        if (redirect) return <Redirect to="/dashboard" />
+     const redirectUser = () => {
+        if (redirect) return <Redirect to={`${userInfo().user.role}/dashboard`} />
+        if (isAuthenticated()) return <Redirect to="/" />
     }
+   
     return (
         <Layout title="Login" className="container col-md-8 offset-md-2">
             {redirectUser()}

@@ -3,17 +3,16 @@ import { Link } from 'react-router-dom';
 import { userInfo } from '../../utils/auth';
 import { SendMoney } from '../admin/SendMoney';
 
-const Dashboard = (props) => {
+const AdminDashBoard = (props) => {
     const { user } = userInfo();
 
-   // console.log(user.CurrentBalance);
-
+  
     const CurrencyCode = user.CurrencyCode == 0 ? "$" : "€";
 
     const UserLinks = () => {
         return (
             <div className="card">
-                <h4 className="card-header">User Links</h4>
+                <h4 className="card-header">Admin Dashboard</h4>
                 <ul className="list-group">
                     <li className="list-group-item">
                         <Link className="nav-link" to="/sendMoney">Send Money</Link>
@@ -39,7 +38,7 @@ const Dashboard = (props) => {
 
     const UserInfo = () => (
         <div className="card mb-5">
-            <h3 className="card-header">User Dashboard</h3>
+            <h3 className="card-header">Account Information</h3>
             <ul className="list-group">
                 <li className="list-group-item">Name: {user.name}</li>
                 <li className="list-group-item">Email: {user.email}</li>
@@ -65,4 +64,4 @@ const Dashboard = (props) => {
     )
 }
 
-export default Dashboard;
+export default AdminDashBoard;
