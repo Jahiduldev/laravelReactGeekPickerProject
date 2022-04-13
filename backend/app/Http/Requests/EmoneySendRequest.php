@@ -13,7 +13,7 @@ class EmoneySendRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,18 +24,11 @@ class EmoneySendRequest extends FormRequest
     public function rules()
     {
         return [
-
-//            'Narration'  => 'required',
-//            'Coaid' =>  'required',
-//            'AccountType' => 'required|confirmed',
-//            'ChartOfAccountNo'  => 'required',
-            'Amount' =>  'required',
-//            'DrOrCr' => 'required|confirmed',
-//            'FiscalYear'  => 'required',
-//            'CurrecnyId' =>  'required',
-//            'Remarks' => 'required|confirmed',
-//            'TransactionInformationId'  => 'required',
-//
+            'customerSenderId' => 'required',
+            'amount' => 'required',
+            'customerSenderAccNo' => 'required',
+            'customerReceiverAccNo' => 'required',
+            'CurrencyCode' => 'required'
         ];
     }
 }

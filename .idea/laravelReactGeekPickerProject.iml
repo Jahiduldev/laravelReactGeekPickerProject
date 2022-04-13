@@ -163,6 +163,11 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/phpunit/php-file-iterator" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/phar-io/version" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/phpspec/prophecy" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/zircote/swagger-php" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/darkaonline/l5-swagger" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/swagger-api/swagger-ui" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/annotations" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

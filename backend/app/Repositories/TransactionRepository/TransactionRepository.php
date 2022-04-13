@@ -21,8 +21,9 @@ class TransactionRepository implements ITransactionRepository
     //get currentcy rate user fixer api if limim 100 cross it will  show error in trail version
     public static function currencyEcchange($currencyAmount, $CurrencyCode, $receiverCurrencyType)
     {
-        if (empty($currencyAmount) || empty($CurrencyCode) || empty($receiverCurrencyType)) {
-            return false;
+        if (empty($currencyAmount) || is_null($CurrencyCode) || is_null($receiverCurrencyType)) {
+            return response()->json(['message' => 'currency Ecchange failed']);
+
         }
         //get exchange data from fixer api
         $client = new \GuzzleHttp\Client();
@@ -30,31 +31,36 @@ class TransactionRepository implements ITransactionRepository
 
         $getPHParrayFromJson = json_decode($response);
 
+
         $oneEuro = $getPHParrayFromJson->rates->USD;  // 1 uro equal to usd
         $oneUSD = 0.92; // 1 usd equal to ur // can not able to get this rate via api due to api restriction
 
         if ($CurrencyCode == 1) {
             return $TotalUSDFromEuro = $oneEuro * $currencyAmount;
         } else {
+
             return $TotalEuroAmount = $oneUSD * $currencyAmount;
         }
+
     }
     //get currentcy type of receiver account by account number
     public static function checkAccoutForCurrency($customerReceiverAccNo)
     {
         if (empty($customerReceiverAccNo)) {
-            return false;
-        }
 
-        $getSenderUserCurrencyType = User::where('accountsNumber', '=', $customerReceiverAccNo)->first()->CurrencyCode;
-        return $getSenderUserCurrencyType;
+            return response()->json(['message' => 'currency checking failed']);
+        }
+        return $getSenderUserCurrencyType = User::where('accountsNumber', '=', $customerReceiverAccNo)->first()->CurrencyCode;
+
+        return response()->json(['message' => 'get sender user currency  checking failed']);
     }
 
     //get receiver user id by accounts number
     public static function getReceiverIdByAccoutsNo($customerReceiverAccNo)
     {
         if (empty($customerReceiverAccNo)) {
-            return false;
+
+            return response()->json(['message' => 'get receiver user  checking failed']);
         }
         $getSenderUserCurrencyType = User::where('accountsNumber', '=', $customerReceiverAccNo)->first()->id;
         return $getSenderUserCurrencyType;
@@ -63,11 +69,13 @@ class TransactionRepository implements ITransactionRepository
 
     public function emoneyTransferTOCustomer($request)
     {
+
+       // return response()->json(['message' => 'Transaction Successfully done']);
         $checkReceiveableCustomerHaveUsdOrEuroBalance = self::checkAccoutForCurrency($request->customerReceiverAccNo);
 
         //get Usd or Euro from api conversion as per customer currency type . if customer have euro , then receive euro and
         // if customer have usd then receive usd
-        $totalDollarOrEuro = self::currencyEcchange($request->amount, $request->CurrencyCode, $checkReceiveableCustomerHaveUsdOrEuroBalance);
+        $totalDollarOrEuro = self::currencyEcchange((int)$request->amount, $request->CurrencyCode, $checkReceiveableCustomerHaveUsdOrEuroBalance);
 
          //receiver account number
         $receiverId = self::getReceiverIdByAccoutsNo($request->customerReceiverAccNo);
@@ -75,10 +83,10 @@ class TransactionRepository implements ITransactionRepository
         //Uniquer transacion number for transaction
         $TransactionNosubstr = uniqid();;
 
-
         //if below value if empty , no tranasction will be made
-        if (empty($request->customerSenderId) || empty($TransactionNosubstr) || empty($request->amount) || empty($request->customerSenderAccNo) || empty($request->customerReceiverAccNo) || empty($request->CurrencyCode)) {
-            return false;
+        if (empty($request->customerSenderId)  || empty($request->amount) || empty($request->customerSenderAccNo) || empty($request->customerReceiverAccNo) || is_null($request->CurrencyCode)) {
+
+            return response()->json(['message' => 'emoney validation failed  failed']);
         }
 
         DB::beginTransaction();
@@ -88,7 +96,7 @@ class TransactionRepository implements ITransactionRepository
                 'TransactionNo' => $TransactionNosubstr,
                 'TransactionTypeId' => 1,
                 'TransactionTypeName' => 'debit',
-                'Amount' => $request->amount,
+                'Amount' => $totalDollarOrEuro,
                 'FromAccount' => $request->customerSenderAccNo,
                 'ToAccount' => $request->customerReceiverAccNo,
                 'CurrencyCode' => $request->CurrencyCode,
@@ -121,7 +129,7 @@ class TransactionRepository implements ITransactionRepository
             echo $e;
         }
         // $id = 2;
-
+        echo 'Transaction Successfully done';
         //DB::statement('call UpdatePersonProfileTable(?, ?)', [$id, $request->amount]);
         return response()->json(['message' => 'Transaction Successfully done']);
     }

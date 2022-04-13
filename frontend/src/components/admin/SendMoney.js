@@ -15,7 +15,7 @@ const SendMoney = () => {
         customerSenderId: user.id,
         customerSenderAccNo: user.accountsNumber,
         customerReceiverAccNo: '',
-        amount: '',
+        amount: Number,
         CurrencyCode: user.CurrencyCode,
         error: false,
         success: false,
