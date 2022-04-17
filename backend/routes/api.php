@@ -31,6 +31,7 @@ Route::group([
     Route::post('sendToCustomer', 'TransactionController@sendToCustomer');
     Route::get('userDataById', 'AuthController@userInfo');
 
+
 });
 
 

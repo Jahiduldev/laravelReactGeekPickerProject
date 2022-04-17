@@ -21,12 +21,15 @@ export const login = (user) => {
 
 
 
-export const getUserDataById = (token) => {
-
-    return axios.get(`http://localhost:8000/api/userDataById`,{
+export const getUserDataById =  async  () => {
+    
+  const  getUserData = JSON.parse(localStorage.getItem('jwt'));
+    //console.log(getUserData)
+    //token =  getUserData.access_token;
+    return await  axios.get(`http://localhost:8000/api/userDataById`,{
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${getUserData}`
         }
     })
 }

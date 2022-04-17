@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use  App\Models\Transaction_information;
 use  Illuminate\Support\Facades\DB;
@@ -54,4 +55,5 @@ class ReportingController extends Controller
         echo 'total';
 
     }
+
 }

@@ -42,6 +42,7 @@ const SendMoney = () => {
 
         const { token } = userInfo();
       
+    
         createSendMoney(token, {customerSenderId, name, customerSenderAccNo, customerReceiverAccNo ,amount ,CurrencyCode })
             .then(response => {
                 

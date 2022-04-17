@@ -97,7 +97,7 @@ class AuthController extends Controller
     {
         return  response()->json(['personal_profile' => User::join('personal_profiles', 'users.id', '=', 'personal_profiles.profile_Id')
                 ->where('profile_Id', '=', Auth::id())
-                ->get(['users.*', 'personal_profiles.accountNumber'])]);
+                ->get(['users.*', 'personal_profiles.accountNumber','personal_profiles.totalAmount'])]);
     }
 
 
