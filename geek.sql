@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2022 at 01:52 PM
+-- Generation Time: Apr 17, 2022 at 10:17 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `geekpicker`
+-- Database: `geek`
 --
 
 -- --------------------------------------------------------
@@ -45,6 +45,28 @@ CREATE TABLE `accountinginformations` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currency_rates`
+--
+
+CREATE TABLE `currency_rates` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rate` decimal(20,5) NOT NULL COMMENT 'Base rates EURO',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `currency_rates`
+--
+
+INSERT INTO `currency_rates` (`id`, `name`, `rate`, `created_at`, `updated_at`) VALUES
+(1, 'USD', '0.92000', NULL, NULL),
+(2, 'EURO', '1.00000', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -106,7 +128,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2022_04_08_082652_create_transaction_status_table', 1),
 (14, '2022_04_08_082711_create_transaction_type_table', 1),
 (15, '2022_04_08_083805_create__logs_table', 1),
-(16, '2022_04_08_084716_create__person_profile_table', 1);
+(17, '2022_04_16_233550_create_currency_rates_table', 1),
+(18, '2022_04_08_084716_create__person_profile_table', 2);
 
 -- --------------------------------------------------------
 
@@ -123,58 +146,48 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `person_profile`
+-- Table structure for table `personal_profiles`
 --
 
-CREATE TABLE `person_profile` (
+CREATE TABLE `personal_profiles` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `profile_Id` bigint(20) UNSIGNED NOT NULL,
-  `PersonAcNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PersonContactNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `AreMarried` tinyint(4) NOT NULL,
-  `PersonNidNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PersonTinNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PersonFatherName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PersonMotherName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PersonHusbandName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PersonWifeName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CurrentUtcTimeZone` date NOT NULL,
-  `PersonImgUrl` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CommissionId` int(11) NOT NULL,
-  `PersonGender` tinyint(4) NOT NULL,
-  `DegreeId` int(11) NOT NULL,
-  `PersonPermanentAddress` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `PersonPresentAddress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `BussinessName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `BussinessAddress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TradeLicenseNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TradeLicenseUrl` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TaxStatusId` tinyint(4) NOT NULL,
-  `BankId` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `BankAccountNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `BankBranchId` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `BankAccountType` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `BankRoutingNumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `RevisionNum` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `IsApproved` tinyint(4) NOT NULL,
-  `Comment` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `UserTypeId` int(11) NOT NULL,
-  `UserStatusId` tinyint(4) NOT NULL,
-  `DailyTransactionLimit` bigint(20) NOT NULL,
-  `DailyTransactionLimitAmt` bigint(20) NOT NULL,
-  `MonthlyTransactionLimit` bigint(20) NOT NULL,
-  `MonthlyTransactionLimitAmt` bigint(20) NOT NULL,
-  `TodayNumberOfTransaction` bigint(20) NOT NULL,
-  `TodayTotalTransactionAmount` bigint(20) NOT NULL,
+  `accountNumber` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `totalAmount` decimal(20,5) DEFAULT NULL,
+  `currencyType` int(11) DEFAULT NULL COMMENT 'Must be set before transaction',
+  `PersonContactNo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PersonNidNo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PersonTinNo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PersonFatherName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PersonMotherName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PersonHusbandName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PersonWifeName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CurrentUtcTimeZone` date DEFAULT NULL,
+  `PersonPermanentAddress` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PersonPresentAddress` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `TradeLicenseNo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `TaxStatusId` tinyint(4) DEFAULT NULL,
+  `DailyTransactionLimit` bigint(20) NOT NULL DEFAULT 0,
+  `DailyTransactionLimitAmt` bigint(20) NOT NULL DEFAULT 0,
+  `MonthlyTransactionLimit` bigint(20) NOT NULL DEFAULT 0,
+  `MonthlyTransactionLimitAmt` bigint(20) NOT NULL DEFAULT 0,
+  `TotalNumberOfTransaction` bigint(20) NOT NULL DEFAULT 0,
+  `TotalTotalTransactionAmount` bigint(20) NOT NULL DEFAULT 0,
   `CurrentMonthNumberOfTransaction` int(11) NOT NULL,
-  `LastTransactionDate` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ModifiedDate` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ModifiedBy` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `IsActive` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `IsDeleted` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `LastTransactionDate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '1=active,0=blocked',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `personal_profiles`
+--
+
+INSERT INTO `personal_profiles` (`id`, `profile_Id`, `accountNumber`, `totalAmount`, `currencyType`, `PersonContactNo`, `PersonNidNo`, `PersonTinNo`, `PersonFatherName`, `PersonMotherName`, `PersonHusbandName`, `PersonWifeName`, `CurrentUtcTimeZone`, `PersonPermanentAddress`, `PersonPresentAddress`, `TradeLicenseNo`, `TaxStatusId`, `DailyTransactionLimit`, `DailyTransactionLimitAmt`, `MonthlyTransactionLimit`, `MonthlyTransactionLimitAmt`, `TotalNumberOfTransaction`, `TotalTotalTransactionAmount`, `CurrentMonthNumberOfTransaction`, `LastTransactionDate`, `status`, `created_at`, `updated_at`) VALUES
+(10, 1, '123456', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, '1', NULL, NULL),
+(11, 2, '654321', NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, '1', NULL, NULL),
+(12, 3, '234567', NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NULL, '1', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -222,17 +235,13 @@ CREATE TABLE `transaction_informations` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `CustomerId` bigint(20) UNSIGNED NOT NULL,
   `TransactionNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `TransactionTypeId` tinyint(4) NOT NULL COMMENT '1=dabit, 0 = credit',
+  `TransactionType` tinyint(4) NOT NULL COMMENT '1=dabit, 0 = credit',
   `TransactionTypeName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `Amount` decimal(20,5) NOT NULL,
   `FromAccount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ToAccount` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CurrencyCode` tinyint(4) NOT NULL,
-  `ReceivedDate` date NOT NULL,
-  `Remarks` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ModifiedDate` date NOT NULL,
-  `IsActive` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `IsDeleted` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '1=active,0=pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -241,13 +250,9 @@ CREATE TABLE `transaction_informations` (
 -- Dumping data for table `transaction_informations`
 --
 
-INSERT INTO `transaction_informations` (`id`, `CustomerId`, `TransactionNo`, `TransactionTypeId`, `TransactionTypeName`, `Amount`, `FromAccount`, `ToAccount`, `CurrencyCode`, `ReceivedDate`, `Remarks`, `ModifiedDate`, `IsActive`, `IsDeleted`, `created_at`, `updated_at`) VALUES
-(59, 2, '625696f936113', 1, 'debit', '1.00000', '654321', '654321', 0, '2022-04-13', 'remarks', '2022-04-13', '1', '0', '2022-04-13 03:25:13', '2022-04-13 03:25:13'),
-(60, 2, '625696f936113', 0, 'credit', '0.92000', '654321', '654321', 0, '2022-04-13', 'remarks', '2022-04-13', '1', '0', '2022-04-13 03:25:13', '2022-04-13 03:25:13'),
-(61, 1, '625697897c73f', 1, 'debit', '1.00000', '123456', '123456', 1, '2022-04-13', 'remarks', '2022-04-13', '1', '0', '2022-04-13 03:27:37', '2022-04-13 03:27:37'),
-(62, 1, '625697897c73f', 0, 'credit', '1.08331', '123456', '123456', 1, '2022-04-13', 'remarks', '2022-04-13', '1', '0', '2022-04-13 03:27:37', '2022-04-13 03:27:37'),
-(63, 2, '62569817c91e5', 1, 'debit', '1.00000', '654321', '123456', 0, '2022-04-13', 'remarks', '2022-04-13', '1', '0', '2022-04-13 03:29:59', '2022-04-13 03:29:59'),
-(64, 1, '62569817c91e5', 0, 'credit', '0.92000', '654321', '123456', 1, '2022-04-13', 'remarks', '2022-04-13', '1', '0', '2022-04-13 03:29:59', '2022-04-13 03:29:59');
+INSERT INTO `transaction_informations` (`id`, `CustomerId`, `TransactionNo`, `TransactionType`, `TransactionTypeName`, `Amount`, `FromAccount`, `ToAccount`, `CurrencyCode`, `status`, `created_at`, `updated_at`) VALUES
+(33, 1, '625bccd57dabf', 1, 'debit', '1.08144', '3', '123456', 1, '0', '2022-04-17 02:16:21', '2022-04-17 02:16:21'),
+(34, 3, '625bccd57dabf', 0, 'credit', '1.08144', '3', '123456', 1, '0', '2022-04-17 02:16:21', '2022-04-17 02:16:21');
 
 -- --------------------------------------------------------
 
@@ -337,11 +342,10 @@ CREATE TABLE `users` (
   `IsOTPVerify` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `IsPasswordChanged` tinyint(4) NOT NULL DEFAULT 0,
   `accountsNumber` int(11) NOT NULL DEFAULT 0,
-  `CurrentBalance` int(11) NOT NULL DEFAULT 0,
   `CurrencyCode` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1=Euro,0 = USD',
   `PersonProfileId` int(11) DEFAULT NULL,
-  `UserIsBlocked` tinyint(1) DEFAULT 0,
-  `role` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '1 = admin, 0 = user',
+  `UserIsBlocked` tinyint(4) NOT NULL DEFAULT 0,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user' COMMENT '1=admin,0 = user',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -351,10 +355,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `OTP`, `IsOTPVerify`, `IsPasswordChanged`, `accountsNumber`, `CurrentBalance`, `CurrencyCode`, `PersonProfileId`, `UserIsBlocked`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Jahidul Isalm', 'kzis1987@gmail.com', NULL, '$2y$10$kwSe3jkQqSCdp1HiW8wql.5iLdsYL1Wqa2jIcgqgUyDsf.hj9ZNFa', NULL, '0', 0, 123456, 0, 1, NULL, 0, 'admin', NULL, '2022-04-12 14:37:08', '2022-04-12 14:37:08'),
-(2, 'shamim', 'jahiduldev@gmail.com', NULL, '$2y$10$WNyrXe9JKMbixch7JWpWueDpFRabiPCLQ0Iq7Cg5nfcbFMmfWxpbu', NULL, '0', 0, 654321, 0, 0, NULL, 1, 'user', NULL, '2022-04-12 14:37:20', '2022-04-12 14:37:20'),
-(3, 'Jahidul Isalm', 'kazijahidul1987@gmail.com', NULL, '$2y$10$YwI7M.gFMVdFfoVibgHnceO1UiaLVRUPWhefZo1er.6pzZ1n718Y2', NULL, '0', 0, 23456, 0, 0, NULL, 0, 'user', NULL, '2022-04-13 04:52:03', '2022-04-13 04:52:03');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `OTP`, `IsOTPVerify`, `IsPasswordChanged`, `accountsNumber`, `CurrencyCode`, `PersonProfileId`, `UserIsBlocked`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Kazi shamim', 'jahiduldev@gmail.com', NULL, '$2y$10$.gHZrnzJWGT5js1w8Hy1GuNgF5Rl81XsvhyNXrDRkEMA7bfQcoK4.', NULL, '0', 0, 0, 0, NULL, 0, 'admin', NULL, '2022-04-16 18:19:16', '2022-04-16 18:19:16'),
+(2, 'Jahidul Isalm', 'kzis1987@gmail.com', NULL, '$2y$10$AhHh8v7Knono6ah4oWgfUONQ9FMSwnGtGIgLoTAo41tlAz6H3irhK', NULL, '0', 0, 0, 0, NULL, 0, 'user', NULL, '2022-04-16 18:19:25', '2022-04-16 18:19:25'),
+(3, 'Kazi Maisha', 'kazijahidul1987@gmail.com', NULL, '$2y$10$M5q7OGjGBghQQ0R08ciU8OfamDyenN7uoifCOvzHiM2oSB4l5Qqs6', NULL, '0', 0, 0, 0, NULL, 0, 'user', NULL, '2022-04-16 18:20:13', '2022-04-16 18:20:13');
 
 --
 -- Indexes for dumped tables
@@ -364,6 +368,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `OT
 -- Indexes for table `accountinginformations`
 --
 ALTER TABLE `accountinginformations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `currency_rates`
+--
+ALTER TABLE `currency_rates`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -392,11 +402,11 @@ ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `person_profile`
+-- Indexes for table `personal_profiles`
 --
-ALTER TABLE `person_profile`
+ALTER TABLE `personal_profiles`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `person_profile_profile_id_foreign` (`profile_Id`);
+  ADD KEY `personal_profiles_profile_id_foreign` (`profile_Id`);
 
 --
 -- Indexes for table `stake_holder_information`
@@ -477,6 +487,12 @@ ALTER TABLE `accountinginformations`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `currency_rates`
+--
+ALTER TABLE `currency_rates`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -492,13 +508,13 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `person_profile`
+-- AUTO_INCREMENT for table `personal_profiles`
 --
-ALTER TABLE `person_profile`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `personal_profiles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `stake_holder_information`
@@ -522,7 +538,7 @@ ALTER TABLE `transaction_fee_policy`
 -- AUTO_INCREMENT for table `transaction_informations`
 --
 ALTER TABLE `transaction_informations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `transaction_profile`
@@ -564,17 +580,17 @@ ALTER TABLE `transaction_type`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `person_profile`
+-- Constraints for table `personal_profiles`
 --
-ALTER TABLE `person_profile`
-  ADD CONSTRAINT `person_profile_profile_id_foreign` FOREIGN KEY (`profile_Id`) REFERENCES `users` (`id`);
+ALTER TABLE `personal_profiles`
+  ADD CONSTRAINT `personal_profiles_profile_id_foreign` FOREIGN KEY (`profile_Id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `transaction_informations`

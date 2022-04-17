@@ -72,4 +72,10 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+
+    public function user_profile()
+    {
+        return $this->hasOne('App\PersonalProfile');
+    }
 }

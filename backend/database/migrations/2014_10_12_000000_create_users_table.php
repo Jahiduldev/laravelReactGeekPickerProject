@@ -23,11 +23,10 @@ class CreateUsersTable extends Migration
             $table->string('IsOTPVerify')->default(0);
             $table->tinyInteger('IsPasswordChanged')->default(0);
             $table->integer('accountsNumber')->default(0);
-            $table->integer('CurrentBalance')->default(0);
             $table->tinyInteger('CurrencyCode')->default(0)->comment('1=Euro,0 = USD');
             $table->integer('PersonProfileId')->nullable();
             $table->tinyInteger('UserIsBlocked')->default(0);
-            $table->tinyInteger('roleID')->default(0)->comment('1=admin,0 = user');;
+            $table->string('role')->default('user')->comment('1=admin,0 = user');;
             $table->rememberToken();
             $table->timestamps();
         });

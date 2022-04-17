@@ -33,6 +33,7 @@ Route::group([
 
 });
 
+
 Route::group([
     'middleware' => ['api'],
     'namespace' => 'App\Http\Controllers',

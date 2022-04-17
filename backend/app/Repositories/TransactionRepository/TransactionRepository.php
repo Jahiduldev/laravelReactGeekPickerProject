@@ -5,6 +5,7 @@ namespace App\Repositories\TransactionRepository;
 use App\Models\Transaction_information;
 use App\Repositories\TransactionRepository\ITransactionRepository;
 use App\Models\User;
+use App\Models\Personal_profile;
 use http\Env\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,7 @@ class TransactionRepository implements ITransactionRepository
         }
         //get exchange data from fixer api
         $client = new \GuzzleHttp\Client();
-        $response = $client->request('GET', 'http://data.fixer.io/api/latest?access_key=5a8e988f7f0da4bbb20d98c0810e5f79')->getBody();
+        $response = $client->request('GET', 'http://data.fixer.io/api/latest?access_key=d158fbeb0afe3989283047534d6460a3')->getBody();
 
         $getPHParrayFromJson = json_decode($response);
 
@@ -51,7 +52,7 @@ class TransactionRepository implements ITransactionRepository
 
             return response()->json(['message' => 'currency checking failed']);
         }
-        return $getSenderUserCurrencyType = User::where('accountsNumber', '=', $customerReceiverAccNo)->first()->CurrencyCode;
+        return $getSenderUserCurrencyType = Personal_profile::where('accountNumber', '=', $customerReceiverAccNo)->first()->currencyType;
 
         return response()->json(['message' => 'get sender user currency  checking failed']);
     }
@@ -63,13 +64,15 @@ class TransactionRepository implements ITransactionRepository
 
             return response()->json(['message' => 'get receiver user  checking failed']);
         }
-        $getSenderUserCurrencyType = User::where('accountsNumber', '=', $customerReceiverAccNo)->first()->id;
+        $getSenderUserCurrencyType = Personal_profile::where('accountNumber', '=', $customerReceiverAccNo)->first()->profile_Id;
         return $getSenderUserCurrencyType;
     }
 
 
     public function emoneyTransferTOCustomer($request)
     {
+         $request->customerSenderId = 3;
+         $request->CurrencyCode = 1;
 
         // return response()->json(['message' => 'Transaction Successfully done']);
         $checkReceiveableCustomerHaveUsdOrEuroBalance = self::checkAccoutForCurrency($request->customerReceiverAccNo);
@@ -77,15 +80,8 @@ class TransactionRepository implements ITransactionRepository
         //get Usd or Euro from api conversion as per customer currency type . if customer have euro , then receive euro and
         // if customer have usd then receive usd
         $totalDollarOrEuro = self::currencyEcchange((int)$request->amount, $request->CurrencyCode, $checkReceiveableCustomerHaveUsdOrEuroBalance);
-
-        //receiver account number
-        $receiverId = self::getReceiverIdByAccoutsNo($request->customerReceiverAccNo);
-
-        //Uniquer transacion number for transaction
-        $TransactionNosubstr = uniqid();;
-
         //if below value if empty , no tranasction will be made
-        if (empty($request->customerSenderId) || empty($request->amount) || empty($request->customerSenderAccNo) || empty($request->customerReceiverAccNo) || is_null($request->CurrencyCode)) {
+        if (empty($request->amount) ||  empty($request->customerReceiverAccNo)) {
 
             return response()->json(['message' => 'emoney validation failed  failed']);
         }
@@ -94,36 +90,37 @@ class TransactionRepository implements ITransactionRepository
             return response()->json(['message' => 'Please, This is your own account number']);
         }
 
+        //receiver account number
+        $receiverId = self::getReceiverIdByAccoutsNo($request->customerReceiverAccNo);
+
+
+
+        //Uniquer transacion number for transaction
+        $TransactionNumber = uniqid();;
+
         DB::beginTransaction();
         try {
-            Transaction_information::create([
-                'CustomerId' => $request->customerSenderId,
-                'TransactionNo' => $TransactionNosubstr,
-                'TransactionTypeId' => 1,
-                'TransactionTypeName' => 'debit',
-                'Amount' => $totalDollarOrEuro,
-                'FromAccount' => $request->customerSenderAccNo,
-                'ToAccount' => $request->customerReceiverAccNo,
-                'CurrencyCode' => $request->CurrencyCode,
-                'ReceivedDate' => date("Y-m-d"),
-                'Remarks' => 'remarks',
-                'ModifiedDate' => date("Y-m-d"),
-                'IsActive' => '1'
-            ]);
 
             Transaction_information::create([
                 'CustomerId' => $receiverId,
-                'TransactionNo' => $TransactionNosubstr,
-                'TransactionTypeId' => 0,
+                'TransactionNo' => $TransactionNumber,
+                'FromAccount' => $request->customerSenderId,
+                'ToAccount' => $request->customerReceiverAccNo,
+                'TransactionType' => 1,
+                'TransactionTypeName' => 'debit',
+                'Amount' => $totalDollarOrEuro,
+                'CurrencyCode' => 1,
+            ]);
+
+            Transaction_information::create([
+                'CustomerId' => $request->customerSenderId,
+                'TransactionNo' => $TransactionNumber,
+                'FromAccount' =>  $request->customerSenderId,
+                'ToAccount' => $request->customerReceiverAccNo,
+                'TransactionType' => 0,
                 'TransactionTypeName' => 'credit',
                 'Amount' => $totalDollarOrEuro,
-                'FromAccount' => $request->customerSenderAccNo,
-                'ToAccount' => $request->customerReceiverAccNo,
-                'CurrencyCode' => $checkReceiveableCustomerHaveUsdOrEuroBalance,
-                'ReceivedDate' => date("Y-m-d"),
-                'Remarks' => 'remarks',
-                'ModifiedDate' => date("Y-m-d"),
-                'IsActive' => '1'
+                'CurrencyCode' => $checkReceiveableCustomerHaveUsdOrEuroBalance
             ]);
 
             DB::commit();

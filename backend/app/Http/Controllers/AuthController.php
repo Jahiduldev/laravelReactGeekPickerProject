@@ -95,10 +95,11 @@ class AuthController extends Controller
     //
     public function userInfo( )
     {
-        return response()->json([
-            'user' => Auth::user()
-        ]);
+        return  response()->json(['personal_profile' => User::join('personal_profiles', 'users.id', '=', 'personal_profiles.profile_Id')
+                ->where('profile_Id', '=', Auth::id())
+                ->get(['users.*', 'personal_profiles.accountNumber'])]);
     }
+
 
     /**
      * Get the guard to be used during authentication.

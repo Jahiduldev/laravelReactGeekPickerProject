@@ -13,52 +13,33 @@ class CreatePersonProfileTable extends Migration
      */
     public function up()
     {
-        Schema::create('person_profile', function (Blueprint $table) {
+        Schema::create('personal_profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('profile_Id');
-            $table->string('PersonAcNo');
-            $table->string('PersonContactNo');
-            $table->tinyInteger('AreMarried');
-            $table->string('PersonNidNo');
-            $table->string('PersonTinNo');
-            $table->string('PersonFatherName');
-            $table->string('PersonMotherName');
-            $table->string('PersonHusbandName');
-            $table->string('PersonWifeName');
-            $table->date('CurrentUtcTimeZone');
-            $table->string('PersonImgUrl');
-            $table->integer('CommissionId');
-            $table->tinyInteger('PersonGender');
-            $table->integer('DegreeId');
-            $table->text('PersonPermanentAddress');
-            $table->string('PersonPresentAddress');
-            $table->string('BussinessName');
-            $table->string('BussinessAddress');
-            $table->string('TradeLicenseNo');
-            $table->string('TradeLicenseUrl');
-            $table->tinyInteger('TaxStatusId');
-            $table->string('BankId');
-            $table->string('BankAccountNo');
-            $table->string('BankBranchId');
-            $table->string('BankAccountType');
-            $table->string('BankRoutingNumber');
-            $table->string('RevisionNum');
-            $table->tinyInteger('IsApproved');
-            $table->string('Comment');
-            $table->integer('UserTypeId');
-            $table->tinyInteger('UserStatusId');
-            $table->bigInteger('DailyTransactionLimit');
-            $table->bigInteger('DailyTransactionLimitAmt');
-            $table->bigInteger('MonthlyTransactionLimit');
-            $table->bigInteger('MonthlyTransactionLimitAmt');
-            $table->bigInteger('TodayNumberOfTransaction');
-            $table->bigInteger('TodayTotalTransactionAmount');
+            $table->string('accountNumber')->nullable();
+            $table->decimal('totalAmount',20,5)->nullable();
+            $table->integer('currencyType')->nullable()->comment('Must be set before transaction');
+            $table->string('PersonContactNo')->nullable();
+            $table->string('PersonNidNo')->nullable();
+            $table->string('PersonTinNo')->nullable();;
+            $table->string('PersonFatherName')->nullable();
+            $table->string('PersonMotherName')->nullable();
+            $table->string('PersonHusbandName')->nullable();
+            $table->string('PersonWifeName')->nullable();
+            $table->date('CurrentUtcTimeZone')->nullable();
+            $table->text('PersonPermanentAddress')->nullable();
+            $table->string('PersonPresentAddress')->nullable();
+            $table->string('TradeLicenseNo')->nullable();
+            $table->tinyInteger('TaxStatusId')->nullable();
+            $table->bigInteger('DailyTransactionLimit')->default(0);
+            $table->bigInteger('DailyTransactionLimitAmt')->default(0);
+            $table->bigInteger('MonthlyTransactionLimit')->default(0);
+            $table->bigInteger('MonthlyTransactionLimitAmt')->default(0);
+            $table->bigInteger('TotalNumberOfTransaction')->default(0);
+            $table->bigInteger('TotalTotalTransactionAmount')->default(0);
             $table->integer('CurrentMonthNumberOfTransaction');
-            $table->string('LastTransactionDate');
-            $table->string('ModifiedDate');
-            $table->string('ModifiedBy');
-            $table->string('IsActive');
-            $table->string('IsDeleted');
+            $table->string('LastTransactionDate')->nullable();
+            $table->string('status')->default(1)->comment("1=active,0=blocked");
             $table->foreign('profile_Id')->references('id')->on('users');
             $table->timestamps();
         });
@@ -71,6 +52,6 @@ class CreatePersonProfileTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_person_profile');
+        Schema::dropIfExists('personal_profiles');
     }
 }

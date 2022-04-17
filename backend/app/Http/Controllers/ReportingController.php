@@ -12,7 +12,7 @@ class ReportingController extends Controller
     //
     public function transactionReport()
     {
-        $posts = DB::table('transaction_informations')->where('CustomerId', '=', 1)->get();
+        $posts = DB::table('transaction_informations')->where('CustomerId', '=', 3)->get();
         return $posts;
     }
 

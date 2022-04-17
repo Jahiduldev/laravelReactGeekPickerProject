@@ -25,7 +25,7 @@ class EmoneySendRequest extends FormRequest
     {
 
         return [
-            'customerSenderId' => 'required',
+            'customerSenderId' => 'required|integer',
             'amount' => 'required|min:1|max:10',
             'customerSenderAccNo' => 'required',
             'customerReceiverAccNo' => 'required',
@@ -33,3 +33,5 @@ class EmoneySendRequest extends FormRequest
         ];
     }
 }
+
+
