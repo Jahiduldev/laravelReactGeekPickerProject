@@ -26,7 +26,7 @@ const Dashboard = (props) => {
 
   
 
-    const CurrencyCode = user.CurrencyCode == 0 ? "$" : "€";
+    const currencyType = getParticularUsertData ? getParticularUsertData[0].currencyType == 1 ?  "€": "$" : null; 
 
     const UserLinks = () => {
 
@@ -64,7 +64,7 @@ const Dashboard = (props) => {
             <ul className="list-group">
                 <li  className="list-group-item">Name: { getParticularUsertData ? getParticularUsertData[0].name : null }</li>
                 <li className="list-group-item">Email: { getParticularUsertData ? getParticularUsertData[0].email : null }</li>
-                <li className="list-group-item">Balance:{ getParticularUsertData ? getParticularUsertData[0].totalAmount : null }</li>
+                <li className="list-group-item">Balance: { currencyType }{ getParticularUsertData ? getParticularUsertData[0].totalAmount : null }</li>
             </ul>            
         </div>
     );
