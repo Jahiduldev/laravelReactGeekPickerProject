@@ -40,11 +40,8 @@ const AdminDashBoard = (props) => {
         <div className="card mb-5">
             <h3 className="card-header">Account Information</h3>
             <ul className="list-group">
-                <li className="list-group-item">Name: {user.name}</li>
+                <li className="list-group-item">Admin Name: {user.name}</li>
                 <li className="list-group-item">Email: {user.email}</li>
-                <li className="list-group-item">Balance: {CurrencyCode} {user.CurrentBalance}
-                
-                </li>
             </ul>
         </div>
     );
